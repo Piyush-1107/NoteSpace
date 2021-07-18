@@ -1,0 +1,29 @@
+<h1>Notes</h1>
+<div class="row">
+    {{#each notes}}
+    <div class="col s12 m6 l4">
+        <div class="card hoverable">
+            <div class="card-image">
+                {{{editIcon user ../user _id}}}
+            </div>
+            <div class="card-content center-align">
+                <h5>{{title}}</h5>
+                <p>{{subjectCode}}</p>
+                <div>
+                    <img src="/uploads/1.jpg" alt="" class="responsive-img">
+                </div>
+                <div class="chip">
+                    <img src="{{user.image}}" alt="">
+                    <a href="/notes/user/{{user._id}}">{{user.displayName}}
+                    </a>
+                </div>
+            </div>
+            <div class="card-action center-align">
+                <a href="/notes/{{_id}}" class="btn grey">Read More</a>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <p>No notes to display</p>
+    {{/each}}
+</div>

@@ -1,0 +1,57 @@
+<h3>Add Notes</h3>
+<div class="row">
+    <form action="/notes" method="POST" class="col s12">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="title">
+                <label for="title">Title</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <select name="status" id="status">
+                    <option value="public" selected>Public</option>
+                    <option value="private">Private</option>
+                </select>
+                <label for="status">Status</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="subjectCode" name="subjectCode">
+                <label for="subjectCode">Subject Code</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <textarea type="text" name="description" id="description" class="materialize-textarea"></textarea>
+                <label for="description">Description</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="link" name="link">
+                <label for="link">Link</label>
+            </div>
+        </div>
+
+        <div class="row file-field input-field">
+            <div class="btn">
+                <span>Upload Preview Image</span>
+                <input type="file" name="preimage" id="preimage">
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+            </div>
+        </div>
+
+        <div class="row">
+            <input type="submit" value="Save" class="btn">
+            <a href="/dashboard" class="btn orange">Cancel</a>
+        </div>
+    </form>
+</div>
