@@ -14,7 +14,6 @@ router.get('/add', ensureAuth, (req, res) => {
 // @desc    Process add page
 // @route   POST /notes
 router.post('/', ensureAuth, async (req, res) => {
-    console.log(req.body)
     try {
         req.body.user = req.user.id
         await Note.create(req.body)
@@ -31,7 +30,6 @@ router.get('/', ensureAuth, async (req, res) => {
     try {
         const notes = await Note.find({ status: 'public' }).populate('user').sort({ createdAt: 'desc' }).lean()
 
-        console.log(notes)
         res.render('notes/index', {
             notes
         })
