@@ -1,7 +1,7 @@
 <h3>Edit Notes</h3>
 <div class="row">
-    <form action="/notes/{{note._id}}" method="POST" class="col s12">
-        <input type="hidden" name="_method" value="PUT">
+    <form action="/notes/{{note._id}}?_method=PUT" method="POST" class="col s12" enctype="multipart/form-data">
+
         <div class="row">
             <div class="input-field">
                 <input type="text" id="title" name="title" value="{{note.title}}">
@@ -46,7 +46,7 @@
         <div class="row file-field input-field">
             <div class="btn">
                 <span>Upload Preview Image</span>
-                <input type="file">
+                <input type="file" name="preimage" id="preimage" accept="image/jpg,image/jpeg,image/gif,image/png">
             </div>
             <div class="file-path-wrapper">
                 <input class="file-path validate" type="text">

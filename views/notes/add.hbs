@@ -1,6 +1,6 @@
 <h3>Add Notes</h3>
 <div class="row">
-    <form action="/notes" method="POST" class="col s12">
+    <form action="/notes" method="POST" class="col s12" enctype="multipart/form-data">
         <div class="row">
             <div class="input-field">
                 <input type="text" id="title" name="title">
@@ -42,7 +42,7 @@
         <div class="row file-field input-field">
             <div class="btn">
                 <span>Upload Preview Image</span>
-                <input type="file" name="preimage" id="preimage">
+                <input type="file" name="preimage" id="preimage" accept="image/jpg,image/jpeg,image/gif,image/png">
             </div>
             <div class="file-path-wrapper">
                 <input class="file-path validate" type="text">

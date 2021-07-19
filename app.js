@@ -25,6 +25,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 // Method Override
+app.use(methodOverride('_method'))
 app.use(
     methodOverride(function (req, res) {
         if (req.body && typeof req.body === 'object' && '_method' in req.body) {

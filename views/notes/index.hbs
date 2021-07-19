@@ -8,10 +8,8 @@
             </div>
             <div class="card-content center-align">
                 <h5>{{title}}</h5>
-                <p>{{subjectCode}}</p>
-                <div>
-                    <img src="/uploads/1.jpg" alt="" class="responsive-img">
-                </div>
+                <h6>{{subjectCode}}</h6>
+                <p>{{description}}</p>
                 <div class="chip">
                     <img src="{{user.image}}" alt="">
                     <a href="/notes/user/{{user._id}}">{{user.displayName}}
@@ -19,7 +17,7 @@
                 </div>
             </div>
             <div class="card-action center-align">
-                <a href="/notes/{{_id}}" class="btn grey">Read More</a>
+                <a href="/notes/{{_id}}" class="btn grey">Open</a>
             </div>
         </div>
     </div>

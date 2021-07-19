@@ -30,6 +30,10 @@ const NoteSchema = new mongoose.Schema({
     subjectCode: {
         type: String,
         required: true
+    },
+    imageKey: {
+        type: String,
+        required: false
     }
 })
 

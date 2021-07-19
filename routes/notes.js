@@ -1,9 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const multer = require('multer')
+const fs = require('fs')
+const util = require('util')
+const unlinkFile = util.promisify(fs.unlink)
 const { ensureAuth, ensureGuest } = require('../middleware/auth')
 
 const Note = require('../models/Note')
+const upload = multer({ dest: 'public/uploads/' })
+
+const { uploadFile, deleteFile, getFileStream } = require('../middleware/s3')
 
 // @desc    Show add page
 // @route   GET /notes/add
@@ -13,8 +19,12 @@ router.get('/add', ensureAuth, (req, res) => {
 
 // @desc    Process add page
 // @route   POST /notes
-router.post('/', ensureAuth, async (req, res) => {
+router.post('/', ensureAuth, upload.single('preimage'), async (req, res) => {
     try {
+        const file = req.file
+        const result = await uploadFile(file)
+        await unlinkFile(file.path)
+        req.body.imageKey = result.key
         req.body.user = req.user.id
         await Note.create(req.body)
         res.redirect('/dashboard')
@@ -37,6 +47,16 @@ router.get('/', ensureAuth, async (req, res) => {
         console.error(err)
         res.render('error/500')
     }
+})
+
+// @desc    Get the notes preview image
+// @route   GET /notes/images/:key
+router.get('/images/:key', (req, res) => {
+    console.log(req.params)
+    const key = req.params.key
+    const readStream = getFileStream(key)
+
+    readStream.pipe(res)
 })
 
 // @desc    Show single note
@@ -83,16 +103,16 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
         }
     } catch (err) {
         console.error(err)
-        return res.render('error/500')
+        return res
+            .render('error/500')
     }
 })
 
 // @desc    Update note
 // @route   PUT /notes/:id
-router.put('/:id', ensureAuth, async (req, res) => {
+router.put('/:id', ensureAuth, upload.single('preimage'), async (req, res) => {
     try {
         let note = await Note.findById(req.params.id).lean()
-
         if (!note) {
             return res.render('error/404')
         }
@@ -100,6 +120,16 @@ router.put('/:id', ensureAuth, async (req, res) => {
         if (note.user != req.user.id) {
             res.redirect('/notes')
         } else {
+            const file = req.file
+            if (file != null) {
+                deleteFile(note.imageKey)
+                const result = await uploadFile(file)
+                await unlinkFile(file.path)
+                req.body.imageKey = result.key
+            } else {
+                req.body.imageKey = note.imageKey
+            }
+
             note = await Note.findOneAndUpdate({ _id: req.params.id }, req.body, {
                 new: true,
                 runValidators: true
@@ -116,6 +146,10 @@ router.put('/:id', ensureAuth, async (req, res) => {
 // @route   Delete /notes/:id
 router.delete('/:id', ensureAuth, async (req, res) => {
     try {
+        const note = await Note.findOne({
+            _id: req.params.id
+        }).lean()
+        deleteFile(note.imageKey)
         await Note.remove({ _id: req.params.id })
         res.redirect('/dashboard')
     } catch (err) {

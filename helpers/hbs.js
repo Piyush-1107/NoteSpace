@@ -4,12 +4,12 @@ module.exports = {
     formatDate: function (date, format) {
         return moment(date).format(format)
     },
-    editIcon: function (storyUser, loggedUser, storyId, floating = true) {
-        if (storyUser._id.toString() == loggedUser._id.toString()) {
+    editIcon: function (noteUser, loggedUser, noteId, floating = true) {
+        if (noteUser._id.toString() == loggedUser._id.toString()) {
             if (floating) {
-                return `<a href="/stories/edit/${storyId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`
+                return `<a href="/notes/edit/${noteId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`
             } else {
-                return `<a href="/stories/edit/${storyId}"><i class="fas fa-edit fa-small"></i></a>`
+                return `<a href="/notes/edit/${noteId}"><i class="fas fa-edit fa-small"></i></a>`
             }
         } else {
             return ''
